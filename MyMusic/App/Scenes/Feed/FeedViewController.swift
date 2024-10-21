@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  MyMusic
 //
 //  Created by Diggo Silva on 20/10/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class FeedViewController: UIViewController {
     
     let feedView = FeedView()
     let viewModel = FeedViewModel()
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection()
     }
@@ -47,43 +47,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
         cell.textLabel?.text = "Cliente \(indexPath.row)"
         return cell
-    }
-}
-
-class FeedView: UIView {
-    lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
-        return tv
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        setupView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupView() {
-        setHierarchy()
-        setConstraints()
-    }
-    
-    private func setHierarchy () {
-        backgroundColor = .systemBackground
-        addSubview(tableView)
-    }
-    
-    private func setConstraints() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
     }
 }
 
