@@ -50,14 +50,6 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-class Client {
-    let name: String
-    
-    init(name: String) {
-        self.name = name
-    }
-}
-
 protocol FeedViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Client
