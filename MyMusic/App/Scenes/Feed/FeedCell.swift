@@ -26,6 +26,10 @@ class FeedCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(client: Client) {
+        clientName.text = client.name
+    }
+    
     private func setupView() {
         setHierarchy()
         setConstraints()

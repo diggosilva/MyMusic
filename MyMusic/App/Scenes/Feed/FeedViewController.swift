@@ -45,7 +45,8 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
-        cell.textLabel?.text = "Cliente \(indexPath.row)"
+        let client = viewModel.cellForRowAt(indexPath: indexPath)
+        cell.configure(client: client)
         return cell
     }
 }
