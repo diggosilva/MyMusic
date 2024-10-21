@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     let feedView = FeedView()
+    let viewModel = FeedViewModel()
     
     override func loadView() {
         super.loadView()
@@ -39,7 +40,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,5 +132,22 @@ class Client {
     
     init(name: String) {
         self.name = name
+    }
+}
+
+protocol FeedViewModelProtocol {
+    func numberOfRowsInSection() -> Int
+    func cellForRowAt(indexPath: IndexPath) -> Client
+}
+
+class FeedViewModel: FeedViewModelProtocol {
+    let listClient: [Client] = []
+    
+    func numberOfRowsInSection() -> Int {
+        return listClient.count
+    }
+    
+    func cellForRowAt(indexPath: IndexPath) -> Client {
+        return listClient[indexPath.row]
     }
 }
