@@ -43,7 +43,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
         cell.textLabel?.text = "Cliente \(indexPath.row)"
         return cell
     }
@@ -53,7 +53,7 @@ class FeedView: UIView {
     lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
         return tv
     }()
     
@@ -82,6 +82,46 @@ class FeedView: UIView {
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
+}
+
+class FeedCell: UITableViewCell {
+    static let identifier: String = "FeedCell"
+    
+    lazy var clientName: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        return lbl
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupView() {
+        setHierarchy()
+        setConstraints()
+    }
+    
+    private func setHierarchy () {
+        backgroundColor = .systemBackground
+        addSubview(clientName)
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            clientName.centerYAnchor.constraint(equalTo: centerYAnchor),
+            clientName.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            clientName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            clientName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            clientName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
         ])
     }
 }
