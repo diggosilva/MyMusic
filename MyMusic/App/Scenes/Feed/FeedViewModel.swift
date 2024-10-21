@@ -10,10 +10,11 @@ import Foundation
 protocol FeedViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Client
+    func addClient(client: Client)
 }
 
 class FeedViewModel: FeedViewModelProtocol {
-    let listClient: [Client] = []
+    var listClient: [Client] = []
     
     func numberOfRowsInSection() -> Int {
         return listClient.count
@@ -21,5 +22,9 @@ class FeedViewModel: FeedViewModelProtocol {
     
     func cellForRowAt(indexPath: IndexPath) -> Client {
         return listClient[indexPath.row]
+    }
+    
+    func addClient(client: Client) {
+        listClient.append(client)
     }
 }

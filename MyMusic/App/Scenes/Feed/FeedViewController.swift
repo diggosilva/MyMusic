@@ -10,7 +10,7 @@ import UIKit
 class FeedViewController: UIViewController {
     
     let feedView = FeedView()
-    let viewModel = FeedViewModel()
+    lazy var viewModel: FeedViewModelProtocol = FeedViewModel()
     
     override func loadView() {
         super.loadView()
@@ -25,7 +25,7 @@ class FeedViewController: UIViewController {
     
     private func setNavBar() {
         title = "Clientes"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector (addButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector (addClientAlert))
     }
     
     private func setDelegatesAndDataSources() {
@@ -33,8 +33,28 @@ class FeedViewController: UIViewController {
         feedView.tableView.dataSource = self
     }
     
-    @objc private func addButtonTapped() {
-        print("Cliente adicionado")
+    @objc func addClientAlert() {
+        let alert = UIAlertController(title: "Adicionar Cliente", message: "Insira o nome do cliente", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Nome do cliente"
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.clearButtonMode = .whileEditing
+        }
+        
+        let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
+            if let clientName = alert.textFields?.first?.text, !clientName.isEmpty {
+                // Adiciona o cliente na lista
+                let client = Client(name: clientName)
+                self.viewModel.addClient(client: client)
+                self.feedView.tableView.reloadData()
+            }
+        }
+        
+        alert.addAction(addAction)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 }
 
