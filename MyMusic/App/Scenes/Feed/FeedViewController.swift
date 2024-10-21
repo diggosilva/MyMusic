@@ -49,20 +49,3 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
-
-protocol FeedViewModelProtocol {
-    func numberOfRowsInSection() -> Int
-    func cellForRowAt(indexPath: IndexPath) -> Client
-}
-
-class FeedViewModel: FeedViewModelProtocol {
-    let listClient: [Client] = []
-    
-    func numberOfRowsInSection() -> Int {
-        return listClient.count
-    }
-    
-    func cellForRowAt(indexPath: IndexPath) -> Client {
-        return listClient[indexPath.row]
-    }
-}
