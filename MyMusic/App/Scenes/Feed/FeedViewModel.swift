@@ -29,12 +29,11 @@ class FeedViewModel: FeedViewModelProtocol {
     func addClient(clientName: String) {
         if listClient.isEmpty {
             listClient.append(Client(name: clientName))
-            repository.saveClient(client: listClient)
         } else {
             let newClient = Client(name: clientName)
             listClient.append(newClient)
-            repository.saveClient(client: listClient)
         }
+        repository.saveClient(client: listClient)
     }
     
     func loadClient() {
