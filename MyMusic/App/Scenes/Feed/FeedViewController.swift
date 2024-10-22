@@ -21,6 +21,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        loadClients()
     }
     
     private func setNavBar() {
@@ -31,6 +32,11 @@ class FeedViewController: UIViewController {
     private func setDelegatesAndDataSources() {
         feedView.tableView.delegate = self
         feedView.tableView.dataSource = self
+    }
+    
+    private func loadClients() {
+        viewModel.loadClient()
+        feedView.tableView.reloadData()
     }
     
     @objc func addClientAlert() {
@@ -46,8 +52,7 @@ class FeedViewController: UIViewController {
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
             if let clientName = alert.textFields?.first?.text, !clientName.isEmpty {
                 // Adiciona o cliente na lista
-                let client = Client(name: clientName)
-                self.viewModel.addClient(client: client)
+                self.viewModel.addClient(clientName: clientName)
                 self.feedView.tableView.reloadData()
             }
         }

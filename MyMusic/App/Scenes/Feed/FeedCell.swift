@@ -28,6 +28,7 @@ class FeedCell: UITableViewCell {
     
     func configure(client: Client) {
         clientName.text = client.name
+        self.accessoryType = .disclosureIndicator
     }
     
     private func setupView() {

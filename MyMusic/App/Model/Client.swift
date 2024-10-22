@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Client {
+class Client: Codable {
     let name: String
     
     init(name: String) {
