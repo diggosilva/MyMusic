@@ -74,4 +74,19 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(client: client)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let client = viewModel.cellForRowAt(indexPath: indexPath)
+        navigationController?.pushViewController(GameViewController(), animated: true)
+    }
+}
+
+class GameViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Jogos"
+        view.backgroundColor = .systemBackground
+    }
 }
