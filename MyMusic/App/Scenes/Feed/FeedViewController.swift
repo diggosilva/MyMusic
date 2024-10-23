@@ -78,6 +78,6 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let client = viewModel.cellForRowAt(indexPath: indexPath)
-        navigationController?.pushViewController(GameViewController(), animated: true)
+        navigationController?.pushViewController(GameViewController(client: client), animated: true)
     }
 }

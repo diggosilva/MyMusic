@@ -43,11 +43,16 @@ class FeedViewModel: FeedViewModelProtocol {
     }
 }
 
-//MARK: REPOSITORY
-
 class Repository {
     let userDefaultsKey = "ClientKey"
     let userDefaults = UserDefaults.standard
+    
+    func saveGame(game: [Game], inClient client: Client) {
+        if let encodedGame = try? JSONEncoder().encode(game) {
+            let clientGame = Client(name: client.name, games: game)
+            userDefaults.set(encodedGame, forKey: userDefaultsKey)
+        }
+    }
     
     func saveClient(client: [Client]) {
         if let encodedClient = try? JSONEncoder().encode(client) {

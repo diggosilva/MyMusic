@@ -10,24 +10,32 @@ import Foundation
 protocol GameViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Game
+    func addGame(gameTitle: String)
 }
 
 class GameViewModel: GameViewModelProtocol {
-    let userDefaultsKey = "userDefaultsKey"
-    let userDefaults = UserDefaults.standard
-    var listGame: [Game] = []
     let client: Client
+    let repository = Repository()
     
     init(client: Client) {
         self.client = client
-//        self.listGame = client.games  // Sugestao xcode
     }
     
     func numberOfRowsInSection() -> Int {
-        listGame.count
+        client.games.count
     }
     
     func cellForRowAt(indexPath: IndexPath) -> Game {
-        listGame[indexPath.row]
+        client.games[indexPath.row]
+    }
+    
+    func addGame(gameTitle: String) {
+        if client.games.isEmpty {
+            let gameTitle = Game(title: gameTitle)
+            client.games.append(gameTitle)
+        } else {
+            let newGame = Game(title: gameTitle)
+            client.games.append(newGame)
+        }
     }
 }

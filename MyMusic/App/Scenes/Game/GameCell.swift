@@ -14,7 +14,7 @@ class GameCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .headline)
-        lbl.text = "Game Name"
+        lbl.numberOfLines = 0
         return lbl
     }()
     
@@ -22,7 +22,6 @@ class GameCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .subheadline)
-        lbl.text = "R$ 4500,00"
         return lbl
     }()
     
@@ -36,8 +35,7 @@ class GameCell: UITableViewCell {
     }
     
     func configure(game: Game) {
-        gameName.text = "Game Name"
-        gamePrice.text = "R$ 4500,00"
+        gameName.text = game.title
         self.accessoryType = .disclosureIndicator
     }
     
