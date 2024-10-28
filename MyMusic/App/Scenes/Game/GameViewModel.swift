@@ -30,12 +30,8 @@ class GameViewModel: GameViewModelProtocol {
     }
     
     func addGame(gameTitle: String) {
-        if client.games.isEmpty {
-            let gameTitle = Game(title: gameTitle)
-            client.games.append(gameTitle)
-        } else {
-            let newGame = Game(title: gameTitle)
-            client.games.append(newGame)
-        }
+        let game = Game(title: gameTitle)
+        client.games.append(game)
+        repository.updateUser(client: client)
     }
 }

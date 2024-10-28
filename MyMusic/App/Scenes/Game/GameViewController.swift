@@ -14,8 +14,6 @@ class GameViewController: UIViewController {
     
     init(client: Client) {
         self.viewModel = GameViewModel(client: client)
-        print("DEBUG: Clicou no cliente: \(client.name)")
-        print("DEBUG: Cliente tem: \(client.games.count) jogos")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,14 +32,23 @@ class GameViewController: UIViewController {
         setDelegatesAndDataSources()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadGames()
+    }
+    
     private func setNavBar() {
-        title = "Jogos"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector (addGameAlert))
     }
     
     private func setDelegatesAndDataSources() {
         gameView.tableView.delegate = self
         gameView.tableView.dataSource = self
+    }
+    
+    private func loadGames() {
+//        viewModel
+        gameView.tableView.reloadData()
     }
     
     @objc func addGameAlert() {

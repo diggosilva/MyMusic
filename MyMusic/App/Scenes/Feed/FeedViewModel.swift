@@ -27,45 +27,12 @@ class FeedViewModel: FeedViewModelProtocol {
     }
     
     func addClient(clientName: String) {
-        if listClient.isEmpty {
-            listClient.append(Client(name: clientName))
-        } else {
-            let newClient = Client(name: clientName)
-            listClient.append(newClient)
-        }
-        repository.saveClient(client: listClient)
+        let newClient = Client(name: clientName)
+        listClient.append(newClient)
+        repository.criarNovoCNPJ(client: newClient)
     }
     
     func loadClient() {
-        if let loadedClient = repository.loadClient() {
-            listClient = loadedClient
-        }
-    }
-}
-
-class Repository {
-    let userDefaultsKey = "ClientKey"
-    let userDefaults = UserDefaults.standard
-    
-    func saveGame(game: [Game], inClient client: Client) {
-        if let encodedGame = try? JSONEncoder().encode(game) {
-            let clientGame = Client(name: client.name, games: game)
-            userDefaults.set(encodedGame, forKey: userDefaultsKey)
-        }
-    }
-    
-    func saveClient(client: [Client]) {
-        if let encodedClient = try? JSONEncoder().encode(client) {
-            userDefaults.set(encodedClient, forKey: userDefaultsKey)
-        }
-    }
-    
-    func loadClient() -> [Client]? {
-        if let data = userDefaults.data(forKey: userDefaultsKey) {
-            if let decodedClient = try? JSONDecoder().decode([Client].self, from: data) {
-                return decodedClient
-            }
-        }
-        return []
+        listClient = repository.loadClient()
     }
 }
