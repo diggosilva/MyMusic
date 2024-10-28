@@ -75,6 +75,13 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(game: game)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let songVC = SongViewController()
+        songVC.title = viewModel.cellForRowAt(indexPath: indexPath).title
+        navigationController?.pushViewController(songVC, animated: true)
+    }
 }
 
 class SongView: UIView {
@@ -111,5 +118,46 @@ class SongView: UIView {
             tableview.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableview.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+    }
+}
+
+class SongViewController: UIViewController {
+    
+    let songView = SongView()
+    
+    override func loadView() {
+        super.loadView()
+        view = songView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNavBar()
+        setDelegatesAndDataSources()
+    }
+    
+    private func setNavBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSongAlert))
+    }
+    
+    private func setDelegatesAndDataSources() {
+        self.songView.tableview.delegate = self
+        self.songView.tableview.dataSource = self
+    }
+    
+    @objc private func addSongAlert() {
+        print("addSongAlert")
+    }
+}
+
+extension SongViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = "Música \(indexPath.row)"
+        return cell
     }
 }
