@@ -29,7 +29,7 @@ class FeedViewModel: FeedViewModelProtocol {
     func addClient(clientName: String) {
         let newClient = Client(name: clientName)
         listClient.append(newClient)
-        repository.criarNovoCNPJ(client: newClient)
+        repository.createUser(client: newClient)
     }
     
     func loadClient() {

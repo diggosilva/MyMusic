@@ -21,15 +21,15 @@ class Repository {
         return []
     }
     
-    func criarNovoCNPJ(client: Client) {
+    func createUser(client: Client) {
         var clientList = loadClient()
         clientList.append(client)
         userDefaults.set(try? JSONEncoder().encode(clientList), forKey: userDefaultsKey)
     }
     
     func updateUser(client: Client) {
-        var existentClientList = loadClient()
-        if var clientAEditar = existentClientList.first(where: { $0.name == client.name }) {
+        let existentClientList = loadClient()
+        if let clientAEditar = existentClientList.first(where: { $0.name == client.name }) {
             clientAEditar.games = client.games
             userDefaults.set(try? JSONEncoder().encode(existentClientList), forKey: userDefaultsKey)
         }
