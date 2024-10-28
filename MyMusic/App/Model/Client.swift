@@ -26,3 +26,11 @@ class Game: Codable {
 //        self.price = price
     }
 }
+
+class Song: Codable {
+    let title: String
+    
+    init(title: String) {
+        self.title = title
+    }
+}

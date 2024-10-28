@@ -45,7 +45,6 @@ class GameCell: UITableViewCell {
     }
     
     private func setHierarchy () {
-        backgroundColor = .systemBackground
         addSubview(gameName)
         addSubview(gamePrice)
     }
