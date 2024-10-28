@@ -9,7 +9,7 @@ import Foundation
 
 class Client: Codable {
     let name: String
-    let games: [Game]
+    var games: [Game]
     
     init(name: String, games: [Game] = []) {
         self.name = name
@@ -18,13 +18,11 @@ class Client: Codable {
 }
 
 class Game: Codable {
-    let name: String
-//    var price: Double {
-//
-//    }
+    let title: String
+//    var price: Double
     
-    init(name: String/*, price: Double*/) {
-        self.name = name
+    init(title: String/*, price: Double = 0.0*/) {
+        self.title = title
 //        self.price = price
     }
 }
