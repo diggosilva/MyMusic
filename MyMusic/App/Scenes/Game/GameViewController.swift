@@ -70,15 +70,16 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let game = viewModel.cellForRowAt(indexPath: indexPath)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GameCell.identifier, for: indexPath) as? GameCell else { return UITableViewCell() }
+        let game = viewModel.cellForRowAt(indexPath: indexPath)
         cell.configure(game: game)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let songVC = SongViewController()
+        let game = viewModel.cellForRowAt(indexPath: indexPath)
+        let songVC = SongViewController(game: game)
         songVC.title = viewModel.cellForRowAt(indexPath: indexPath).title
         navigationController?.pushViewController(songVC, animated: true)
     }
@@ -124,6 +125,16 @@ class SongView: UIView {
 class SongViewController: UIViewController {
     
     let songView = SongView()
+    let viewModel: SongViewModelProtocol
+    
+    init(game: Game) {
+        self.viewModel = SongViewModel(game: game)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -163,10 +174,10 @@ class SongViewController: UIViewController {
         }
         
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
-            if let songName = alert.textFields?.first?.text, !songName.isEmpty,
+            if let songTitle = alert.textFields?.first?.text, !songTitle.isEmpty,
                let songPrice = alert.textFields?.last?.text, !songPrice.isEmpty {
-                let song = Song(title: songName, price: Double(songPrice) ?? 0.0)
-                print("DEBUG: \(song.title) - \(song.price)")
+                self.viewModel.addSong(songTitle: songTitle, songPrice: songPrice)
+                self.songView.tableview.reloadData()
             }
         }
         
@@ -178,15 +189,46 @@ class SongViewController: UIViewController {
 
 extension SongViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SongCell.identifier, for: indexPath) as? SongCell else { return UITableViewCell() }
-//        cell.textLabel?.text = "Música \(indexPath.row)"
+        let song = viewModel.cellForRowAt(indexPath: indexPath)
+        cell.configure(song: song)
         return cell
     }
 }
+
+protocol SongViewModelProtocol {
+    func numberOfRowsInSection()  -> Int
+    func cellForRowAt(indexPath: IndexPath) -> Song
+    func addSong(songTitle: String, songPrice: String)
+}
+
+class SongViewModel: SongViewModelProtocol {
+    let game: Game
+    let repository = Repository()
+    
+    init(game: Game) {
+        self.game = game
+    }
+    
+    func numberOfRowsInSection() -> Int {
+        return game.songs.count
+    }
+    
+    func cellForRowAt(indexPath: IndexPath) -> Song {
+        return game.songs[indexPath.row]
+    }
+    
+    func addSong(songTitle: String, songPrice: String) {
+        let song = Song(title: songTitle, price: Double(songPrice) ?? 0.0)
+        game.songs.append(song)
+//        repository.updateUser(client: <#T##Client#>)
+    }
+}
+
 
 class SongCell: UITableViewCell {
     static let identifier: String = "SongCell"
@@ -196,7 +238,6 @@ class SongCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .headline)
         lbl.numberOfLines = 0
-        lbl.text = "Música"
         return lbl
     }()
     
@@ -204,7 +245,6 @@ class SongCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .subheadline)
-        lbl.text = "$ 250.00"
         lbl.textColor = .white
         return lbl
     }()
@@ -228,6 +268,7 @@ class SongCell: UITableViewCell {
     
     func configure(song: Song) {
         songName.text = song.title
+        songPrice.text = String(format: "$ %.2f", song.price)
     }
     
     private func setupView() {
