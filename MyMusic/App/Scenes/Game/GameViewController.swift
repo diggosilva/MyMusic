@@ -88,7 +88,7 @@ class SongView: UIView {
     lazy var tableview: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.register(SongCell.self, forCellReuseIdentifier: SongCell.identifier)
         return tv
     }()
     
@@ -146,7 +146,33 @@ class SongViewController: UIViewController {
     }
     
     @objc private func addSongAlert() {
-        print("addSongAlert")
+        let alert = UIAlertController(title: "Adicionar música", message: "Insira o nome e o valor da música", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Nome da música"
+            textField.clearButtonMode = .whileEditing
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Valor da música"
+            textField.clearButtonMode = .whileEditing
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.keyboardType = .decimalPad
+        }
+        
+        let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
+            if let songName = alert.textFields?.first?.text, !songName.isEmpty,
+               let songPrice = alert.textFields?.last?.text, !songPrice.isEmpty {
+                let song = Song(title: songName, price: Double(songPrice) ?? 0.0)
+                print("DEBUG: \(song.title) - \(song.price)")
+            }
+        }
+        
+        alert.addAction(addAction)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 }
 
@@ -156,8 +182,8 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Música \(indexPath.row)"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SongCell.identifier, for: indexPath) as? SongCell else { return UITableViewCell() }
+//        cell.textLabel?.text = "Música \(indexPath.row)"
         return cell
     }
 }
@@ -170,6 +196,7 @@ class SongCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .headline)
         lbl.numberOfLines = 0
+        lbl.text = "Música"
         return lbl
     }()
     
@@ -177,7 +204,17 @@ class SongCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.text = "$ 250.00"
+        lbl.textColor = .white
         return lbl
+    }()
+    
+    lazy var songPriceBG: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGreen
+        view.layer.cornerRadius = 14
+        return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -200,7 +237,8 @@ class SongCell: UITableViewCell {
     
     private func setHierarchy () {
         addSubview(songName)
-        addSubview(songPrice)
+        addSubview(songPriceBG)
+        songPriceBG.addSubview(songPrice)
     }
     
     private func setConstraints() {
@@ -209,10 +247,15 @@ class SongCell: UITableViewCell {
             songName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             songName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             
-            songPrice.topAnchor.constraint(equalTo: songName.bottomAnchor, constant: 10),
-            songPrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            songPrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            songPrice.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            songPriceBG.topAnchor.constraint(equalTo: songName.bottomAnchor, constant: 10),
+            songPriceBG.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            songPriceBG.trailingAnchor.constraint(equalTo: songPrice.trailingAnchor, constant: 10),
+            songPriceBG.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            
+            songPrice.topAnchor.constraint(equalTo: songPriceBG.topAnchor, constant: 5),
+            songPrice.leadingAnchor.constraint(equalTo: songPriceBG.leadingAnchor, constant: 10),
+            songPrice.trailingAnchor.constraint(equalTo: songPriceBG.trailingAnchor, constant: -10),
+            songPrice.bottomAnchor.constraint(equalTo: songPriceBG.bottomAnchor, constant: -5),
         ])
     }
 }

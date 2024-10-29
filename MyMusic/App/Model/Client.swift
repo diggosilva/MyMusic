@@ -31,8 +31,10 @@ class Game: Codable {
 
 class Song: Codable {
     let title: String
+    let price: Double
     
-    init(title: String) {
+    init(title: String, price: Double) {
         self.title = title
+        self.price = price
     }
 }
