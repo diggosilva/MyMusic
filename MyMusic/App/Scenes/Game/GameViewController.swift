@@ -161,3 +161,58 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
+
+class SongCell: UITableViewCell {
+    static let identifier: String = "SongCell"
+    
+    lazy var songName: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = .preferredFont(forTextStyle: .headline)
+        lbl.numberOfLines = 0
+        return lbl
+    }()
+    
+    lazy var songPrice: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        return lbl
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(song: Song) {
+        songName.text = song.title
+    }
+    
+    private func setupView() {
+        setHierarchy()
+        setConstraints()
+    }
+    
+    private func setHierarchy () {
+        addSubview(songName)
+        addSubview(songPrice)
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            songName.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            songName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            songName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            songPrice.topAnchor.constraint(equalTo: songName.bottomAnchor, constant: 10),
+            songPrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            songPrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            songPrice.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+        ])
+    }
+}
