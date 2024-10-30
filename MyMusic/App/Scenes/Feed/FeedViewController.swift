@@ -8,7 +8,6 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    
     let feedView = FeedView()
     lazy var viewModel: FeedViewModelProtocol = FeedViewModel()
     

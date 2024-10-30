@@ -14,7 +14,6 @@ class Repository {
     func loadClient() -> [Client] {
         if let data = userDefaults.data(forKey: userDefaultsKey) {
             if let decodedClient = try? JSONDecoder().decode([Client].self, from: data) {
-                print("DEBUG: Itens no array: \(decodedClient.count)")
                 return decodedClient
             }
         }

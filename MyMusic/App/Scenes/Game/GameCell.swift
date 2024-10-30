@@ -18,7 +18,7 @@ class GameCell: UITableViewCell {
         return lbl
     }()
     
-    lazy var gamePrice: UILabel = {
+    lazy var gameTotalPrice: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .subheadline)
@@ -46,7 +46,7 @@ class GameCell: UITableViewCell {
     
     private func setHierarchy () {
         addSubview(gameName)
-        addSubview(gamePrice)
+        addSubview(gameTotalPrice)
     }
     
     private func setConstraints() {
@@ -55,10 +55,10 @@ class GameCell: UITableViewCell {
             gameName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             gameName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             
-            gamePrice.topAnchor.constraint(equalTo: gameName.bottomAnchor, constant: 10),
-            gamePrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            gamePrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            gamePrice.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            gameTotalPrice.topAnchor.constraint(equalTo: gameName.bottomAnchor, constant: 10),
+            gameTotalPrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            gameTotalPrice.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            gameTotalPrice.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

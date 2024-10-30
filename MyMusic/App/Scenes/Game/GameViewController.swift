@@ -8,7 +8,6 @@
 import UIKit
 
 class GameViewController: UIViewController {
-    
     let gameView = GameView()
     let viewModel: GameViewModelProtocol
     

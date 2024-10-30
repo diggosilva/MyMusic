@@ -15,7 +15,7 @@ protocol GameViewModelProtocol {
 
 class GameViewModel: GameViewModelProtocol {
     let client: Client
-    let repository = Repository()
+    private let repository = Repository()
     
     init(client: Client) {
         self.client = client

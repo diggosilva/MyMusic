@@ -15,7 +15,8 @@ protocol SongViewModelProtocol {
 
 class SongViewModel: SongViewModelProtocol {
     let game: Game
-    let repository = Repository()
+    private let repository = Repository()
+//    private var client: Client
     
     init(game: Game) {
         self.game = game
