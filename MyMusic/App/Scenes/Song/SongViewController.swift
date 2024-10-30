@@ -11,8 +11,8 @@ class SongViewController: UIViewController {
     let songView = SongView()
     let viewModel: SongViewModelProtocol
     
-    init(game: Game) {
-        self.viewModel = SongViewModel(game: game)
+    init(game: Game, client: Client) {
+        self.viewModel = SongViewModel(game: game, client: client)
         super.init(nibName: nil, bundle: nil)
     }
     

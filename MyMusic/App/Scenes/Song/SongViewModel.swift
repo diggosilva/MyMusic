@@ -16,10 +16,11 @@ protocol SongViewModelProtocol {
 class SongViewModel: SongViewModelProtocol {
     let game: Game
     private let repository = Repository()
-//    private var client: Client
+    private var client: Client
     
-    init(game: Game) {
+    init(game: Game, client: Client) {
         self.game = game
+        self.client = client
     }
     
     func numberOfRowsInSection() -> Int {
