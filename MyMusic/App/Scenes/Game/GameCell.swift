@@ -13,7 +13,7 @@ class GameCell: UITableViewCell {
     lazy var gameName: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = .preferredFont(forTextStyle: .headline)
+        lbl.font = .preferredFont(forTextStyle: .subheadline)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -22,6 +22,7 @@ class GameCell: UITableViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.textColor = .secondaryLabel
         return lbl
     }()
     
@@ -36,7 +37,16 @@ class GameCell: UITableViewCell {
     
     func configure(game: Game) {
         gameName.text = game.title
+        if game.songs.isEmpty {
+            gameTotalPrice.text = ""
+        } else {
+            gameTotalPrice.text = "\(game.songs.count) músicas - R$ \(String(format: "%.2f", somaValorMusicas(game: game)))"
+        }
         self.accessoryType = .disclosureIndicator
+    }
+    
+    func somaValorMusicas(game: Game) -> Double {
+        return game.songs.reduce(0, { $0 + $1.price })
     }
     
     private func setupView() {

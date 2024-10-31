@@ -20,12 +20,12 @@ class Client: Codable {
 class Game: Codable {
     let title: String
     var songs: [Song]
-//    var totalPrice: Double
+    var totalPrice: Double
     
-    init(title: String, songs: [Song] = []/*, totalPrice: Double = 0.0*/) {
+    init(title: String, songs: [Song] = [], totalPrice: Double = 0.0) {
         self.title = title
         self.songs = songs
-//        self.totalPrice = totalPrice
+        self.totalPrice = totalPrice
     }
 }
 

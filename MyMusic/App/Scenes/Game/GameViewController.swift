@@ -31,6 +31,11 @@ class GameViewController: UIViewController {
         setDelegatesAndDataSources()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        gameView.tableView.reloadData()
+    }
+    
     private func setNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector (addGameAlert))
     }
