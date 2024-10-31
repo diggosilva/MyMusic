@@ -16,7 +16,11 @@ protocol FeedViewModelProtocol {
 
 class FeedViewModel: FeedViewModelProtocol {
     var listClient: [Client] = []
-    private let repository = Repository()
+    private let repository: Repository
+    
+    init(repository: Repository = Repository()) {
+        self.repository = repository
+    }
     
     func numberOfRowsInSection() -> Int {
         return listClient.count

@@ -8,19 +8,20 @@
 import Foundation
 
 protocol SongViewModelProtocol {
-    func numberOfRowsInSection()  -> Int
+    func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Song
     func addSong(songTitle: String, songPrice: String)
 }
 
 class SongViewModel: SongViewModelProtocol {
     let game: Game
-    private let repository = Repository()
+    private let repository: Repository
     private var client: Client
     
-    init(game: Game, client: Client) {
+    init(game: Game, client: Client, repository: Repository = Repository()) {
         self.game = game
         self.client = client
+        self.repository = repository
     }
     
     func numberOfRowsInSection() -> Int {
@@ -34,6 +35,6 @@ class SongViewModel: SongViewModelProtocol {
     func addSong(songTitle: String, songPrice: String) {
         let song = Song(title: songTitle, price: Double(songPrice) ?? 0.0)
         game.songs.append(song)
-//        repository.updateUser(client: <#T##Client#>)
+        repository.updateUser(client: client)
     }
 }

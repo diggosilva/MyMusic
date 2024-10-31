@@ -11,14 +11,16 @@ protocol GameViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Game
     func addGame(gameTitle: String)
+    var client: Client { get }
 }
 
 class GameViewModel: GameViewModelProtocol {
-    let client: Client
-    private let repository = Repository()
+    var client: Client
+    private let repository: Repository
     
-    init(client: Client) {
+    init(client: Client, repository: Repository = Repository()) {
         self.client = client
+        self.repository = repository
     }
     
     func numberOfRowsInSection() -> Int {

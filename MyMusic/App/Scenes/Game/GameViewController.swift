@@ -78,7 +78,8 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let game = viewModel.cellForRowAt(indexPath: indexPath)
-        let songVC = SongViewController(game: game)
+        let client = viewModel.client
+        let songVC = SongViewController(game: game, client: client)
         songVC.title = viewModel.cellForRowAt(indexPath: indexPath).title
         navigationController?.pushViewController(songVC, animated: true)
     }
