@@ -19,10 +19,22 @@ class Client: Codable {
 
 class Game: Codable {
     let title: String
-//    var price: Double
+    var songs: [Song]
+//    var totalPrice: Double
     
-    init(title: String/*, price: Double = 0.0*/) {
+    init(title: String, songs: [Song] = []/*, totalPrice: Double = 0.0*/) {
         self.title = title
-//        self.price = price
+        self.songs = songs
+//        self.totalPrice = totalPrice
+    }
+}
+
+class Song: Codable {
+    let title: String
+    let price: Double
+    
+    init(title: String, price: Double) {
+        self.title = title
+        self.price = price
     }
 }

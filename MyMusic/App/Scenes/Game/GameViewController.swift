@@ -8,7 +8,6 @@
 import UIKit
 
 class GameViewController: UIViewController {
-    
     let gameView = GameView()
     let viewModel: GameViewModelProtocol
     
@@ -70,9 +69,18 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let game = viewModel.cellForRowAt(indexPath: indexPath)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GameCell.identifier, for: indexPath) as? GameCell else { return UITableViewCell() }
+        let game = viewModel.cellForRowAt(indexPath: indexPath)
         cell.configure(game: game)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let game = viewModel.cellForRowAt(indexPath: indexPath)
+        let client = viewModel.client
+        let songVC = SongViewController(game: game, client: client)
+        songVC.title = viewModel.cellForRowAt(indexPath: indexPath).title
+        navigationController?.pushViewController(songVC, animated: true)
     }
 }

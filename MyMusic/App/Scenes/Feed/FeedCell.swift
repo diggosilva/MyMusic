@@ -37,7 +37,6 @@ class FeedCell: UITableViewCell {
     }
     
     private func setHierarchy () {
-        backgroundColor = .systemBackground
         addSubview(clientName)
     }
     
