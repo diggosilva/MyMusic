@@ -98,9 +98,15 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let client = viewModel.cellForRowAt(indexPath: indexPath)
-            viewModel.removeClient(client: client)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let alert = UIAlertController(title: "", message: "Isso apagará permanentemente o cliente selecionado. Esta ação não pode ser desfeita.", preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
+                let client = self.viewModel.cellForRowAt(indexPath: indexPath)
+                self.viewModel.removeClient(client: client)
+                tableView.deleteRows(at: [indexPath], with: .middle)
+            }
+            alert.addAction(deleteAction)
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+            present(alert, animated: true)
         }
     }
 }
