@@ -56,13 +56,24 @@ class FeedViewController: UIViewController {
             if let clientName = alert.textFields?.first?.text, !clientName.isEmpty {
                 // Adiciona o cliente na lista
                 self.viewModel.addClient(clientName: clientName)
-                self.feedView.tableView.reloadData()
+//                self.feedView.tableView.reloadData()
+                self.updateTableViewSmoothly()
             }
         }
         
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert, animated: true)
+    }
+    
+    private func updateTableViewSmoothly() {
+        // Obter o índice do novo cliente
+        let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
+        
+        // Atualizar a tabela de forma suave
+        feedView.tableView.beginUpdates()
+        feedView.tableView.insertRows(at: [indexPath], with: .middle)
+        feedView.tableView.endUpdates()
     }
 }
 
