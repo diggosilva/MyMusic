@@ -26,11 +26,18 @@ class Repository {
         userDefaults.set(try? JSONEncoder().encode(clientList), forKey: userDefaultsKey)
     }
     
+    func deleteUser(client: Client) {
+        var existingClients = loadClient()
+        existingClients.removeAll { $0.id == client.id }
+        userDefaults.set(try? JSONEncoder().encode(existingClients), forKey: userDefaultsKey)
+    }
+    
     func updateUser(client: Client) {
         let existingClients = loadClient()
         if let clientToEdit = existingClients.first(where: { $0.id == client.id }) {
             clientToEdit.games = client.games
             userDefaults.set(try? JSONEncoder().encode(existingClients), forKey: userDefaultsKey)
         }
+        print("DEBUG: \(existingClients.count)")
     }
 }

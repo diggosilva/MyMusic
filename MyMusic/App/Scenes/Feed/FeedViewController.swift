@@ -85,4 +85,12 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         gameVC.title = "Jogos - \(client.name)"
         navigationController?.pushViewController(gameVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let client = viewModel.cellForRowAt(indexPath: indexPath)
+            viewModel.removeClient(client: client)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }

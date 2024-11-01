@@ -11,6 +11,7 @@ protocol FeedViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Client
     func addClient(clientName: String)
+    func removeClient(client: Client)
     func loadClient()
 }
 
@@ -34,6 +35,13 @@ class FeedViewModel: FeedViewModelProtocol {
         let newClient = Client(name: clientName)
         listClient.append(newClient)
         repository.createUser(client: newClient)
+    }
+    
+    func removeClient(client: Client) {
+        if let index = listClient.firstIndex(where: { $0.id == client.id }) {
+            listClient.remove(at: index)
+            repository.deleteUser(client: client)
+        }
     }
     
     func loadClient() {
