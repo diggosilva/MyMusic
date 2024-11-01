@@ -38,10 +38,8 @@ class FeedViewModel: FeedViewModelProtocol {
     }
     
     func removeClient(client: Client) {
-        if let index = listClient.firstIndex(where: { $0.id == client.id }) {
-            listClient.remove(at: index)
-            repository.deleteUser(client: client)
-        }
+        listClient.removeAll(where: { $0.id == client.id })
+        repository.deleteUser(client: client)
     }
     
     func loadClient() {

@@ -11,6 +11,7 @@ protocol GameViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRowAt(indexPath: IndexPath) -> Game
     func addGame(gameTitle: String)
+    func removeGame(game: Game)
     var client: Client { get }
 }
 
@@ -34,6 +35,11 @@ class GameViewModel: GameViewModelProtocol {
     func addGame(gameTitle: String) {
         let game = Game(title: gameTitle)
         client.games.append(game)
+        repository.updateUser(client: client)
+    }
+    
+    func removeGame(game: Game) {
+        client.games.removeAll(where: { $0.title == game.title })
         repository.updateUser(client: client)
     }
 }

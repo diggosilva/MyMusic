@@ -98,4 +98,18 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
         songVC.title = viewModel.cellForRowAt(indexPath: indexPath).title
         navigationController?.pushViewController(songVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "", message: "Isso apagará permanentemente o jogo selecionado. Esta ação não pode ser desfeita.", preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
+                let game = self.viewModel.cellForRowAt(indexPath: indexPath)
+                self.viewModel.removeGame(game: game)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            alert.addAction(deleteAction)
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+            present(alert, animated: true)
+        }
+    }
 }
