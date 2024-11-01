@@ -38,6 +38,5 @@ class Repository {
             clientToEdit.games = client.games
             userDefaults.set(try? JSONEncoder().encode(existingClients), forKey: userDefaultsKey)
         }
-        print("DEBUG: \(existingClients.count)")
     }
 }

@@ -56,7 +56,6 @@ class FeedViewController: UIViewController {
             if let clientName = alert.textFields?.first?.text, !clientName.isEmpty {
                 // Adiciona o cliente na lista
                 self.viewModel.addClient(clientName: clientName)
-//                self.feedView.tableView.reloadData()
                 self.updateTableViewSmoothly()
             }
         }
