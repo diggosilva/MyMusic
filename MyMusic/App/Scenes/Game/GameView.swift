@@ -9,7 +9,7 @@ import UIKit
 
 class GameView: UIView {
     lazy var tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.register(GameCell.self, forCellReuseIdentifier: GameCell.identifier)
         return tv

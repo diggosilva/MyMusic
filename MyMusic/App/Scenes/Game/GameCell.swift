@@ -13,7 +13,7 @@ class GameCell: UITableViewCell {
     lazy var gameName: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.font = .preferredFont(forTextStyle: .headline)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -38,7 +38,7 @@ class GameCell: UITableViewCell {
     func configure(game: Game) {
         gameName.text = game.title
         if game.songs.isEmpty {
-            gameTotalPrice.text = ""
+            gameTotalPrice.text = "Nenhuma música ainda"
         } else if game.songs.count == 1 {
             gameTotalPrice.text = "\(game.songs.count) música - R$ \(String(format: "%.2f", calculateTotalPrice(game: game)))"
         } else {

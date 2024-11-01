@@ -61,13 +61,23 @@ class SongViewController: UIViewController {
             if let songTitle = alert.textFields?.first?.text, !songTitle.isEmpty,
                let songPrice = alert.textFields?.last?.text, !songPrice.isEmpty {
                 self.viewModel.addSong(songTitle: songTitle, songPrice: songPrice)
-                self.songView.tableview.reloadData()
+                self.updateTableViewSmoothly()
             }
         }
         
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert, animated: true)
+    }
+    
+    func updateTableViewSmoothly() {
+        // Obter o índice do novo cliente
+        let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
+        
+        // Atualizar a tabela de forma suave
+        songView.tableview.beginUpdates()
+        songView.tableview.insertRows(at: [indexPath], with: .automatic)
+        songView.tableview.endUpdates()
     }
 }
 

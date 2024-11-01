@@ -9,7 +9,7 @@ import UIKit
 
 class FeedView: UIView {
     lazy var tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
         return tv

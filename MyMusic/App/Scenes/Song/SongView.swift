@@ -9,7 +9,7 @@ import UIKit
 
 class SongView: UIView {
     lazy var tableview: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.register(SongCell.self, forCellReuseIdentifier: SongCell.identifier)
         return tv

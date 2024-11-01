@@ -13,7 +13,7 @@ class SongCell: UITableViewCell {
     lazy var songName: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.font = .preferredFont(forTextStyle: .headline)
         lbl.numberOfLines = 0
         return lbl
     }()
@@ -65,9 +65,10 @@ class SongCell: UITableViewCell {
             songName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             songName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             
-            songPriceBG.topAnchor.constraint(equalTo: songName.bottomAnchor),
-            songPriceBG.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            songPriceBG.topAnchor.constraint(equalTo: songName.bottomAnchor, constant: 5),
+            songPriceBG.leadingAnchor.constraint(equalTo: songName.leadingAnchor),
             songPriceBG.trailingAnchor.constraint(equalTo: songPrice.trailingAnchor, constant: 10),
+            songPriceBG.heightAnchor.constraint(equalToConstant: 28),
             songPriceBG.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             
             songPrice.topAnchor.constraint(equalTo: songPriceBG.topAnchor, constant: 5),

@@ -71,7 +71,7 @@ class FeedViewController: UIViewController {
         
         // Atualizar a tabela de forma suave
         feedView.tableView.beginUpdates()
-        feedView.tableView.insertRows(at: [indexPath], with: .middle)
+        feedView.tableView.insertRows(at: [indexPath], with: .automatic)
         feedView.tableView.endUpdates()
     }
 }
@@ -102,7 +102,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
             let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
                 let client = self.viewModel.cellForRowAt(indexPath: indexPath)
                 self.viewModel.removeClient(client: client)
-                tableView.deleteRows(at: [indexPath], with: .middle)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             alert.addAction(deleteAction)
             alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))

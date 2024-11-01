@@ -13,10 +13,17 @@ class FeedCell: UITableViewCell {
     lazy var clientName: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.font = .preferredFont(forTextStyle: .headline)
         return lbl
     }()
     
+    lazy var clientTotalGame: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        lbl.textColor = .secondaryLabel
+        return lbl
+    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -28,6 +35,14 @@ class FeedCell: UITableViewCell {
     
     func configure(client: Client) {
         clientName.text = client.name
+        
+        if client.games.isEmpty {
+            clientTotalGame.text = "Nenhum jogo ainda"
+        } else if client.games.count == 1 {
+            clientTotalGame.text = "\(client.games.count) jogo"
+        } else {
+            clientTotalGame.text = "\(client.games.count) jogos"
+        }
         self.accessoryType = .disclosureIndicator
     }
     
@@ -38,13 +53,19 @@ class FeedCell: UITableViewCell {
     
     private func setHierarchy () {
         addSubview(clientName)
+        addSubview(clientTotalGame)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            clientName.centerYAnchor.constraint(equalTo: centerYAnchor),
+            clientName.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             clientName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             clientName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            clientTotalGame.topAnchor.constraint(equalTo: clientName.bottomAnchor, constant: 10),
+            clientTotalGame.leadingAnchor.constraint(equalTo: clientName.leadingAnchor),
+            clientTotalGame.trailingAnchor.constraint(equalTo: clientName.trailingAnchor),
+            clientTotalGame.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
         ])
     }
 }

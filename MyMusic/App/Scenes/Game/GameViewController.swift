@@ -58,13 +58,23 @@ class GameViewController: UIViewController {
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
             if let gameTitle = alert.textFields?.first?.text, !gameTitle.isEmpty {
                 self.viewModel.addGame(gameTitle: gameTitle)
-                self.gameView.tableView.reloadData()
+                self.updateTableViewSmoothly()
             }
         }
         
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert, animated: true)
+    }
+    
+    private func updateTableViewSmoothly() {
+        // Obter o índice do novo cliente
+        let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
+        
+        // Atualizar a tabela de forma suave
+        gameView.tableView.beginUpdates()
+        gameView.tableView.insertRows(at: [indexPath], with: .automatic)
+        gameView.tableView.endUpdates()
     }
 }
 
