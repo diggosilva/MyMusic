@@ -28,7 +28,7 @@ class Repository {
     
     func updateUser(client: Client) {
         let existingClients = loadClient()
-        if let clientToEdit = existingClients.first(where: { $0.name == client.name && $0.id == client.id }) {
+        if let clientToEdit = existingClients.first(where: { $0.id == client.id }) {
             clientToEdit.games = client.games
             userDefaults.set(try? JSONEncoder().encode(existingClients), forKey: userDefaultsKey)
         }
