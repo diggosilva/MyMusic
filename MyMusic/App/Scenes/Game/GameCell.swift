@@ -39,13 +39,15 @@ class GameCell: UITableViewCell {
         gameName.text = game.title
         if game.songs.isEmpty {
             gameTotalPrice.text = ""
+        } else if game.songs.count == 1 {
+            gameTotalPrice.text = "\(game.songs.count) música - R$ \(String(format: "%.2f", calculateTotalPrice(game: game)))"
         } else {
-            gameTotalPrice.text = "\(game.songs.count) músicas - R$ \(String(format: "%.2f", somaValorMusicas(game: game)))"
+            gameTotalPrice.text = "\(game.songs.count) músicas - R$ \(String(format: "%.2f", calculateTotalPrice(game: game)))"
         }
         self.accessoryType = .disclosureIndicator
     }
     
-    func somaValorMusicas(game: Game) -> Double {
+    func calculateTotalPrice(game: Game) -> Double {
         return game.songs.reduce(0, { $0 + $1.price })
     }
     
