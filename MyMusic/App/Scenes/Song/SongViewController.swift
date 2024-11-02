@@ -100,9 +100,15 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
     //TODO: Implementar o metodo delegate pra deletar célula
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let song = viewModel.cellForRowAt(indexPath: indexPath)
-            viewModel.removeSong(song: song)
-            songView.tableview.deleteRows(at: [indexPath], with: .automatic)
+            let alert = UIAlertController(title: "", message: "Isso apagará permanentemente a música selecionada. Esta ação não pode ser desfeita.", preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
+                let song = self.viewModel.cellForRowAt(indexPath: indexPath)
+                self.viewModel.removeSong(song: song)
+                self.songView.tableview.deleteRows(at: [indexPath], with: .automatic)
+            }
+            alert.addAction(deleteAction)
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+            present(alert, animated: true)
         }
     }
 }
