@@ -13,6 +13,7 @@ extension UITextField {
         textField.autocapitalizationType = .words
         textField.autocorrectionType = .no
         textField.clearButtonMode = .whileEditing
+        textField.keyboardType = keyboardType
     }
 }
 
