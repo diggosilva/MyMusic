@@ -12,6 +12,7 @@ protocol SongViewModelProtocol {
     func cellForRowAt(indexPath: IndexPath) -> Song
     func addSong(songTitle: String, songPrice: String)
     func removeSong(song: Song)
+    func updateSong(at index: Int, newSongTitle: String, newPrice: Double)
 }
 
 class SongViewModel: SongViewModelProtocol {
@@ -41,6 +42,13 @@ class SongViewModel: SongViewModelProtocol {
     
     func removeSong(song: Song) {
         game.songs.removeAll(where: { $0.title == song.title })
+        repository.updateUser(client: client)
+    }
+    
+    func updateSong(at index: Int, newSongTitle: String, newPrice: Double) {
+        guard index >= 0 && index < game.songs.count else { return }
+        game.songs[index].title = newSongTitle
+        game.songs[index].price = newPrice
         repository.updateUser(client: client)
     }
 }

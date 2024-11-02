@@ -29,6 +29,55 @@ class SongViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        longPressRecognizer()
+    }
+    
+    private func longPressRecognizer() {
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        songView.tableview.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    @objc private func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let location = gestureRecognizer.location(in: songView.tableview)
+            if let indexPath = songView.tableview.indexPathForRow(at: location) {
+                let song = viewModel.cellForRowAt(indexPath: indexPath)
+                self.editSongAlert(song: song, indexPath: indexPath)
+            }
+        }
+    }
+    
+    private func editSongAlert(song: Song, indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Editar música", message: "Atualize o nome e o valor da música.", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.text = song.title
+            textField.placeholder = "Nome da música"
+            textField.clearButtonMode = .whileEditing
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+        }
+        
+        alert.addTextField { textField in
+            textField.text = "\(song.price)"
+            textField.placeholder = "Valor da música"
+            textField.clearButtonMode = .whileEditing
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.keyboardType = .decimalPad
+        }
+        
+        let saveAction = UIAlertAction(title: "Salvar", style: .default) { action in
+            if let updatedSongTitle = alert.textFields?.first?.text, !updatedSongTitle.isEmpty,
+               let updatedSongPriceText = alert.textFields?.last?.text, !updatedSongPriceText.isEmpty,
+               let updatedSongPrice = Double(updatedSongPriceText) {
+                self.viewModel.updateSong(at: indexPath.row, newSongTitle: updatedSongTitle, newPrice: updatedSongPrice)
+                self.updateTableViewSmoothlyForUpdateSong(at: indexPath)
+            }
+        }
+        alert.addAction(saveAction)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
     
     private func setNavBar() {
@@ -61,7 +110,7 @@ class SongViewController: UIViewController {
             if let songTitle = alert.textFields?.first?.text, !songTitle.isEmpty,
                let songPrice = alert.textFields?.last?.text, !songPrice.isEmpty {
                 self.viewModel.addSong(songTitle: songTitle, songPrice: songPrice)
-                self.updateTableViewSmoothly()
+                self.updateTableViewSmoothlyForNewSong()
             }
         }
         
@@ -70,13 +119,19 @@ class SongViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    func updateTableViewSmoothly() {
+    func updateTableViewSmoothlyForNewSong() {
         // Obter o índice do novo cliente
         let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
         
         // Atualizar a tabela de forma suave
         songView.tableview.beginUpdates()
         songView.tableview.insertRows(at: [indexPath], with: .automatic)
+        songView.tableview.endUpdates()
+    }
+    
+    func updateTableViewSmoothlyForUpdateSong(at indexPath: IndexPath) {
+        songView.tableview.beginUpdates()
+        songView.tableview.reloadRows(at: [indexPath], with: .automatic)
         songView.tableview.endUpdates()
     }
 }
@@ -97,7 +152,6 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    //TODO: Implementar o metodo delegate pra deletar célula
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let alert = UIAlertController(title: "", message: "Isso apagará permanentemente a música selecionada. Esta ação não pode ser desfeita.", preferredStyle: .actionSheet)

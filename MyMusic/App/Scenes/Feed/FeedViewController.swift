@@ -56,7 +56,7 @@ class FeedViewController: UIViewController {
             if let clientName = alert.textFields?.first?.text, !clientName.isEmpty {
                 // Adiciona o cliente na lista
                 self.viewModel.addClient(clientName: clientName)
-                self.updateTableViewSmoothly()
+                self.updateTableViewSmoothlyForNewClient()
             }
         }
         
@@ -65,7 +65,7 @@ class FeedViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func updateTableViewSmoothly() {
+    private func updateTableViewSmoothlyForNewClient() {
         // Obter o índice do novo cliente
         let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
         

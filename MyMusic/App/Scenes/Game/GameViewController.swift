@@ -58,7 +58,7 @@ class GameViewController: UIViewController {
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
             if let gameTitle = alert.textFields?.first?.text, !gameTitle.isEmpty {
                 self.viewModel.addGame(gameTitle: gameTitle)
-                self.updateTableViewSmoothly()
+                self.updateTableViewSmoothlyForNewGame()
             }
         }
         
@@ -67,7 +67,7 @@ class GameViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func updateTableViewSmoothly() {
+    private func updateTableViewSmoothlyForNewGame() {
         // Obter o índice do novo cliente
         let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
         
