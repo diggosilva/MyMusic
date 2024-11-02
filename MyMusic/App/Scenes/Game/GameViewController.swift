@@ -57,10 +57,7 @@ class GameViewController: UIViewController {
         
         alert.addTextField { textField in
             textField.text = game.title
-            textField.placeholder = "Nome do Jogo"
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
-            textField.clearButtonMode = .whileEditing
+            textField.configTextField(textField: textField, placeholder: "Nome do Jogo")
         }
         
         let saveAction = UIAlertAction(title: "Salvar", style: .default) { action in
@@ -87,10 +84,7 @@ class GameViewController: UIViewController {
         let alert = UIAlertController(title: "Adicionar Jogo", message: "Insira o nome do Jogo", preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.placeholder = "Nome do Jogo"
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
-            textField.clearButtonMode = .whileEditing
+            textField.configTextField(textField: textField, placeholder: "Nome do Jogo")
         }
         
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in

@@ -46,10 +46,7 @@ class FeedViewController: UIViewController {
         let alert = UIAlertController(title: "Adicionar Cliente", message: "Insira o nome do cliente", preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.placeholder = "Nome do cliente"
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
-            textField.clearButtonMode = .whileEditing
+            textField.configTextField(textField: textField, placeholder: "Nome do cliente")
         }
         
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
@@ -59,7 +56,6 @@ class FeedViewController: UIViewController {
                 self.updateTableViewSmoothlyForNewClient()
             }
         }
-        
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert, animated: true)

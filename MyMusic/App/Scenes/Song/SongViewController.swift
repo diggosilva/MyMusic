@@ -52,19 +52,12 @@ class SongViewController: UIViewController {
         
         alert.addTextField { textField in
             textField.text = song.title
-            textField.placeholder = "Nome da música"
-            textField.clearButtonMode = .whileEditing
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
+            textField.configTextField(textField: textField, placeholder: "Nome da música")
         }
         
         alert.addTextField { textField in
             textField.text = "\(song.price)"
-            textField.placeholder = "Valor da música"
-            textField.clearButtonMode = .whileEditing
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
-            textField.keyboardType = .decimalPad
+            textField.configTextField(textField: textField, placeholder: "Valor da música", keyboardType: .decimalPad)
         }
         
         let saveAction = UIAlertAction(title: "Salvar", style: .default) { action in
@@ -92,18 +85,11 @@ class SongViewController: UIViewController {
     @objc private func addSongAlert() {
         let alert = UIAlertController(title: "Adicionar música", message: "Insira o nome e o valor da música", preferredStyle: .alert)
         alert.addTextField { textField in
-            textField.placeholder = "Nome da música"
-            textField.clearButtonMode = .whileEditing
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
+            textField.configTextField(textField: textField, placeholder: "Nome da música")
         }
         
         alert.addTextField { textField in
-            textField.placeholder = "Valor da música"
-            textField.clearButtonMode = .whileEditing
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .no
-            textField.keyboardType = .decimalPad
+            textField.configTextField(textField: textField, placeholder: "Valor da música", keyboardType: .decimalPad)
         }
         
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
@@ -113,7 +99,6 @@ class SongViewController: UIViewController {
                 self.updateTableViewSmoothlyForNewSong()
             }
         }
-        
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         present(alert, animated: true)
