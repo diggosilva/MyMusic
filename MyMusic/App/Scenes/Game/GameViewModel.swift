@@ -12,6 +12,7 @@ protocol GameViewModelProtocol {
     func cellForRowAt(indexPath: IndexPath) -> Game
     func addGame(gameTitle: String)
     func removeGame(game: Game)
+    func updateGame(at index: Int, newGameTitle: String)
     var client: Client { get }
 }
 
@@ -40,6 +41,12 @@ class GameViewModel: GameViewModelProtocol {
     
     func removeGame(game: Game) {
         client.games.removeAll(where: { $0.title == game.title })
+        repository.updateUser(client: client)
+    }
+    
+    func updateGame(at index: Int, newGameTitle: String) {
+        guard index >= 0 && index < client.games.count else { return }
+        client.games[index].title = newGameTitle
         repository.updateUser(client: client)
     }
 }

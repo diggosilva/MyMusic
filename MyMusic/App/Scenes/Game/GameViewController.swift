@@ -29,11 +29,49 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        longPressRecognizer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         gameView.tableView.reloadData()
+    }
+    
+    private func longPressRecognizer() {
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        gameView.tableView.addGestureRecognizer(longPressGestureRecognizer)
+    }
+    
+    @objc private func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let location = gestureRecognizer.location(in: gameView.tableView)
+            if let indexPath = gameView.tableView.indexPathForRow(at: location) {
+                let game = viewModel.cellForRowAt(indexPath: indexPath)
+                self.editGameAlert(game: game, indexPath: indexPath)
+            }
+        }
+    }
+    
+    private func editGameAlert(game: Game, indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Editar jogo", message: "Atualize o nome do jogo.", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.text = game.title
+            textField.placeholder = "Nome do Jogo"
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.clearButtonMode = .whileEditing
+        }
+        
+        let saveAction = UIAlertAction(title: "Salvar", style: .default) { action in
+            if let gameTitle = alert.textFields?.first?.text, !gameTitle.isEmpty {
+                self.viewModel.updateGame(at: indexPath.row, newGameTitle: gameTitle)
+                self.updateTableViewSmoothlyForUpdateGame(at: indexPath)
+            }
+        }
+        alert.addAction(saveAction)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
     
     private func setNavBar() {
@@ -48,11 +86,11 @@ class GameViewController: UIViewController {
     @objc func addGameAlert() {
         let alert = UIAlertController(title: "Adicionar Jogo", message: "Insira o nome do Jogo", preferredStyle: .alert)
         
-        alert.addTextField { textfield in
-            textfield.placeholder = "Nome do Jogo"
-            textfield.autocapitalizationType = .words
-            textfield.autocorrectionType = .no
-            textfield.clearButtonMode = .whileEditing
+        alert.addTextField { textField in
+            textField.placeholder = "Nome do Jogo"
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.clearButtonMode = .whileEditing
         }
         
         let addAction = UIAlertAction(title: "Adicionar", style: .default) { action in
@@ -74,6 +112,12 @@ class GameViewController: UIViewController {
         // Atualizar a tabela de forma suave
         gameView.tableView.beginUpdates()
         gameView.tableView.insertRows(at: [indexPath], with: .automatic)
+        gameView.tableView.endUpdates()
+    }
+    
+    private func updateTableViewSmoothlyForUpdateGame(at indexPath: IndexPath) {
+        gameView.tableView.beginUpdates()
+        gameView.tableView.reloadRows(at: [indexPath], with: .automatic)
         gameView.tableView.endUpdates()
     }
 }
@@ -105,7 +149,7 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
             let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
                 let game = self.viewModel.cellForRowAt(indexPath: indexPath)
                 self.viewModel.removeGame(game: game)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                self.gameView.tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             alert.addAction(deleteAction)
             alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))

@@ -20,7 +20,7 @@ class Client: Codable {
 }
 
 class Game: Codable {
-    let title: String
+    var title: String
     var songs: [Song]
     var totalPrice: Double
     

@@ -33,8 +33,8 @@ class SongViewController: UIViewController {
     }
     
     private func longPressRecognizer() {
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        songView.tableview.addGestureRecognizer(longPressRecognizer)
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        songView.tableview.addGestureRecognizer(longPressGestureRecognizer)
     }
     
     @objc private func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
