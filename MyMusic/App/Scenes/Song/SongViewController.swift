@@ -96,4 +96,13 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //TODO: Implementar o metodo delegate pra deletar célula
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let song = viewModel.cellForRowAt(indexPath: indexPath)
+            viewModel.removeSong(song: song)
+            songView.tableview.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
