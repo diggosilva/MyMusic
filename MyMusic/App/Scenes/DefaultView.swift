@@ -1,17 +1,17 @@
 //
-//  GameView.swift
+//  DefaultView.swift
 //  MyMusic
 //
-//  Created by Diggo Silva on 23/10/24.
+//  Created by Diggo Silva on 02/11/24.
 //
 
 import UIKit
 
-class GameView: UIView {
+class DefaultView: UIView {
+    
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(GameCell.self, forCellReuseIdentifier: GameCell.identifier)
         return tv
     }()
     
@@ -27,6 +27,10 @@ class GameView: UIView {
     private func setupView() {
         setHierarchy()
         setConstraints()
+    }
+    
+    func registerCell<Cell: UITableViewCell>(cellType: Cell.Type, identifier: String) {
+        tableView.register(cellType, forCellReuseIdentifier: identifier)
     }
     
     private func setHierarchy () {

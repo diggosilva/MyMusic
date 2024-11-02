@@ -8,7 +8,7 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    let feedView = FeedView()
+    let feedView = DefaultView()
     lazy var viewModel: FeedViewModelProtocol = FeedViewModel()
     
     override func loadView() {
@@ -20,6 +20,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        registerCells()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,6 +36,10 @@ class FeedViewController: UIViewController {
     private func setDelegatesAndDataSources() {
         feedView.tableView.delegate = self
         feedView.tableView.dataSource = self
+    }
+    
+    private func registerCells() {
+        feedView.registerCell(cellType: FeedCell.self, identifier: FeedCell.identifier)
     }
     
     private func loadClients() {

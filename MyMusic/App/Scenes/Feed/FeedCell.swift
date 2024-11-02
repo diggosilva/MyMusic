@@ -52,8 +52,7 @@ class FeedCell: UITableViewCell {
     }
     
     private func setHierarchy () {
-        addSubview(clientName)
-        addSubview(clientTotalGame)
+        addSubviews([clientName, clientTotalGame])
     }
     
     private func setConstraints() {

@@ -15,3 +15,9 @@ extension UITextField {
         textField.clearButtonMode = .whileEditing
     }
 }
+
+extension UIView {
+    func addSubviews(_ views: [UIView]) {
+        views.forEach({ addSubview($0) })
+    }
+}

@@ -54,9 +54,7 @@ class SongCell: UITableViewCell {
     }
     
     private func setHierarchy () {
-        addSubview(songName)
-        addSubview(songPriceBG)
-        songPriceBG.addSubview(songPrice)
+        addSubviews([songName, songPriceBG, songPrice])
     }
     
     private func setConstraints() {

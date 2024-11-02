@@ -8,7 +8,7 @@
 import UIKit
 
 class GameViewController: UIViewController {
-    let gameView = GameView()
+    let gameView = DefaultView()
     let viewModel: GameViewModelProtocol
     
     init(client: Client) {
@@ -29,6 +29,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        registerCells()
         longPressRecognizer()
     }
     
@@ -78,6 +79,10 @@ class GameViewController: UIViewController {
     private func setDelegatesAndDataSources() {
         gameView.tableView.delegate = self
         gameView.tableView.dataSource = self
+    }
+    
+    private func registerCells() {
+        gameView.registerCell(cellType: GameCell.self, identifier: GameCell.identifier)
     }
     
     @objc func addGameAlert() {

@@ -57,8 +57,7 @@ class GameCell: UITableViewCell {
     }
     
     private func setHierarchy () {
-        addSubview(gameName)
-        addSubview(gameTotalPrice)
+        addSubviews([gameName, gameTotalPrice])
     }
     
     private func setConstraints() {

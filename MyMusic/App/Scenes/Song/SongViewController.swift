@@ -8,7 +8,7 @@
 import UIKit
 
 class SongViewController: UIViewController {
-    let songView = SongView()
+    let songView = DefaultView()
     let viewModel: SongViewModelProtocol
     
     init(game: Game, client: Client) {
@@ -29,18 +29,19 @@ class SongViewController: UIViewController {
         super.viewDidLoad()
         setNavBar()
         setDelegatesAndDataSources()
+        registerCells()
         longPressRecognizer()
     }
     
     private func longPressRecognizer() {
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        songView.tableview.addGestureRecognizer(longPressGestureRecognizer)
+        songView.tableView.addGestureRecognizer(longPressGestureRecognizer)
     }
     
     @objc private func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == .began {
-            let location = gestureRecognizer.location(in: songView.tableview)
-            if let indexPath = songView.tableview.indexPathForRow(at: location) {
+            let location = gestureRecognizer.location(in: songView.tableView)
+            if let indexPath = songView.tableView.indexPathForRow(at: location) {
                 let song = viewModel.cellForRowAt(indexPath: indexPath)
                 self.editSongAlert(song: song, indexPath: indexPath)
             }
@@ -78,8 +79,12 @@ class SongViewController: UIViewController {
     }
     
     private func setDelegatesAndDataSources() {
-        self.songView.tableview.delegate = self
-        self.songView.tableview.dataSource = self
+        self.songView.tableView.delegate = self
+        self.songView.tableView.dataSource = self
+    }
+    
+    private func registerCells() {
+        songView.registerCell(cellType: SongCell.self, identifier: SongCell.identifier)
     }
     
     @objc private func addSongAlert() {
@@ -109,15 +114,15 @@ class SongViewController: UIViewController {
         let indexPath = IndexPath(row: viewModel.numberOfRowsInSection() - 1, section: 0)
         
         // Atualizar a tabela de forma suave
-        songView.tableview.beginUpdates()
-        songView.tableview.insertRows(at: [indexPath], with: .automatic)
-        songView.tableview.endUpdates()
+        songView.tableView.beginUpdates()
+        songView.tableView.insertRows(at: [indexPath], with: .automatic)
+        songView.tableView.endUpdates()
     }
     
     func updateTableViewSmoothlyForUpdateSong(at indexPath: IndexPath) {
-        songView.tableview.beginUpdates()
-        songView.tableview.reloadRows(at: [indexPath], with: .automatic)
-        songView.tableview.endUpdates()
+        songView.tableView.beginUpdates()
+        songView.tableView.reloadRows(at: [indexPath], with: .automatic)
+        songView.tableView.endUpdates()
     }
 }
 
@@ -143,7 +148,7 @@ extension SongViewController: UITableViewDelegate, UITableViewDataSource {
             let deleteAction = UIAlertAction(title: "Apagar Deste iPhone", style: .destructive) { action in
                 let song = self.viewModel.cellForRowAt(indexPath: indexPath)
                 self.viewModel.removeSong(song: song)
-                self.songView.tableview.deleteRows(at: [indexPath], with: .automatic)
+                self.songView.tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             alert.addAction(deleteAction)
             alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
