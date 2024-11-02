@@ -18,25 +18,3 @@ class Client: Codable {
         self.games = games
     }
 }
-
-class Game: Codable {
-    var title: String
-    var songs: [Song]
-    var totalPrice: Double
-    
-    init(title: String, songs: [Song] = [], totalPrice: Double = 0.0) {
-        self.title = title
-        self.songs = songs
-        self.totalPrice = totalPrice
-    }
-}
-
-class Song: Codable {
-    var title: String
-    var price: Double
-    
-    init(title: String, price: Double) {
-        self.title = title
-        self.price = price
-    }
-}
